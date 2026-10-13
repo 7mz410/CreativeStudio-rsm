@@ -50,16 +50,16 @@ with:
 | Repo | app | package | version_var | bundle | windows_script | Status |
 |---|---|---|---|---|---|---|
 | rsm (this repo) | rsm | vectorcraft | VECTORCRAFT_VERSION | rsm.app | (generic zip) | tested |
-| 7rrek | vectorcraft | vectorcraft | VECTORCRAFT_VERSION | VectorCraft.app | packaging/windows/package.ps1 | not run |
-| tlween | photocraft | photocraft | PHOTOCRAFT_VERSION | PhotoCraft.app | packaging/windows/package.ps1 | not run |
-| lamasat | lightcraft | lightcraft | LIGHTCRAFT_VERSION | LightCraft.app | packaging/windows/package.ps1 | not run |
-| tsweer | filmcraft | filmcraft | FILMCRAFT_VERSION | FilmCraft.app | packaging/windows/package.ps1 | not run |
-| effectat | effectcraft | effectcraft | EFFECTCRAFT_VERSION | EffectCraft.app | packaging/windows/package.ps1 | not run |
-| trteeb | designcraft | designcraft | DESIGNCRAFT_VERSION | DesignCraft.app | packaging/windows/package.ps1 | not run |
-| sf7aat | pdfcraft | pdfcraft | PDFCRAFT_VERSION | PdfCraft.app | packaging/windows/package.ps1 | not run (zip carries models\) |
-| klmat | wordcraft | wordcraft | WORDCRAFT_VERSION | WordCraft.app | packaging/windows/package.ps1 | not run |
-| arqam | gridcraft | gridcraft | GRIDCRAFT_VERSION | GridCraft.app | packaging/windows/package.ps1 | not run |
-| 3urood | deckcraft | deckcraft | DECKCRAFT_VERSION | DeckCraft.app | packaging/windows/package.ps1 | not run |
+| 7rrek | 7rrek | vectorcraft | VECTORCRAFT_VERSION | 7rrek.app | packaging/windows/package.ps1 | not run |
+| tlween | tlween | photocraft | PHOTOCRAFT_VERSION | tlween.app | packaging/windows/package.ps1 | not run |
+| lamasat | lamasat | lightcraft | LIGHTCRAFT_VERSION | lamasat.app | packaging/windows/package.ps1 | not run |
+| tsweer | tsweer | filmcraft | FILMCRAFT_VERSION | tsweer.app | packaging/windows/package.ps1 | not run |
+| effectat | effectat | effectcraft | EFFECTCRAFT_VERSION | effectat.app | packaging/windows/package.ps1 | not run |
+| trteeb | trteeb | designcraft | DESIGNCRAFT_VERSION | trteeb.app | packaging/windows/package.ps1 | not run |
+| sf7aat | sf7aat | pdfcraft | PDFCRAFT_VERSION | sf7aat.app | packaging/windows/package.ps1 | not run (zip carries models\) |
+| klmat | klmat | wordcraft | WORDCRAFT_VERSION | klmat.app | packaging/windows/package.ps1 | not run |
+| arqam | arqam | gridcraft | GRIDCRAFT_VERSION | arqam.app | packaging/windows/package.ps1 | not run |
+| 3urood | 3urood | deckcraft | DECKCRAFT_VERSION | 3urood.app | packaging/windows/package.ps1 | not run |
 | muhandes | cadcraft | cadcraft | CADCRAFT_VERSION | CADCraft.app | packaging/windows/package.ps1 | not run |
 | sharek | figcraft | figcraft | FIGCRAFT_VERSION | FigCraft.app | packaging/windows/package.ps1 | not run (its release.yml also sets the version with xtask) |
 | aswat | soundcraft | soundcraft | SOUNDCRAFT_VERSION | SoundCraft.app | packaging/windows/package.ps1 | not run |
