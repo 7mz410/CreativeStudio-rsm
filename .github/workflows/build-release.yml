@@ -127,6 +127,13 @@ jobs:
           hdiutil attach -nobrowse -readonly -mountpoint "$mnt" "$dmg" >/dev/null
           rc=0
           test -d "$mnt/${{ inputs.bundle }}" || { echo "::error::${{ inputs.bundle }} missing from $dmg"; rc=1; }
+          # The executable Info.plist names must be in the bundle, or macOS calls the app damaged.
+          app="$mnt/${{ inputs.bundle }}"
+          exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist" 2>/dev/null || true)
+          test -n "$exe" && test -x "$app/Contents/MacOS/$exe" || { echo "::error::$app: CFBundleExecutable '$exe' is not in Contents/MacOS"; rc=1; }
+          icon=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIconFile' "$app/Contents/Info.plist" 2>/dev/null || true)
+          test -z "$icon" || test -f "$app/Contents/Resources/${icon%.icns}.icns" || { echo "::error::$app: icon '$icon' is not in Contents/Resources"; rc=1; }
+          codesign --verify --strict --deep "$app" || { echo "::error::$app fails codesign --verify"; rc=1; }
           ls -la "$mnt"
           hdiutil detach "$mnt" >/dev/null
           exit $rc
