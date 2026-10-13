@@ -41,6 +41,10 @@ on:
         description: "Executable to check in the Linux tarball and to zip in the generic Windows portable build. Empty: the package name."
         type: string
         default: ""
+      fonts_ref:
+        description: "storytold/craft-fonts commit to build with (apps pin the one their build expects)."
+        type: string
+        default: 3d9ab3a132ed0eff457e424226a435a901da30d3
       macos_script:
         description: "macOS packaging script, run from the repo root."
         type: string
@@ -85,7 +89,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: storytold/craft-fonts
-          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
       - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
         with:
@@ -145,7 +149,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: storytold/craft-fonts
-          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
       - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
         with:
@@ -208,7 +212,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: storytold/craft-fonts
-          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
       - name: Install build dependencies
         run: |
