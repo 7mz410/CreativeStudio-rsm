@@ -133,7 +133,11 @@ jobs:
           test -n "$exe" && test -x "$app/Contents/MacOS/$exe" || { echo "::error::$app: CFBundleExecutable '$exe' is not in Contents/MacOS"; rc=1; }
           icon=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIconFile' "$app/Contents/Info.plist" 2>/dev/null || true)
           test -z "$icon" || test -f "$app/Contents/Resources/${icon%.icns}.icns" || { echo "::error::$app: icon '$icon' is not in Contents/Resources"; rc=1; }
-          codesign --verify --strict --deep "$app" || { echo "::error::$app fails codesign --verify"; rc=1; }
+          # Verify a copy without the volume's Finder metadata, as the launcher installs it
+          # (strict codesign calls that metadata "detritus").
+          copy="$RUNNER_TEMP/app-copy/${{ inputs.bundle }}"; rm -rf "$RUNNER_TEMP/app-copy"; mkdir -p "$RUNNER_TEMP/app-copy"
+          ditto --norsrc --noextattr --noacl "$app" "$copy"
+          codesign --verify --strict --deep "$copy" || { echo "::error::$app fails codesign --verify"; rc=1; }
           ls -la "$mnt"
           hdiutil detach "$mnt" >/dev/null
           exit $rc
