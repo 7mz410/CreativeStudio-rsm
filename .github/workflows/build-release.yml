@@ -148,7 +148,7 @@ jobs:
           v="${VECTORCRAFT_VERSION#v}"
           VECTORCRAFT_VERSION="$v" packaging/linux/package.sh --formats tar
           mv "dist/release/vectorcraft-$v-linux-x86_64.tar.gz" "dist/release/${{ inputs.app }}-$v-linux-x86_64.tar.gz"
-          tar -tzf "dist/release/${{ inputs.app }}-$v-linux-x86_64.tar.gz" | grep -E '/usr/bin/vectorcraft$'
+          tar -tzf "dist/release/${{ inputs.app }}-$v-linux-x86_64.tar.gz" | grep -E '/bin/vectorcraft$'
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: release-linux
