@@ -262,7 +262,9 @@ jobs:
         run: |
           set -euo pipefail
           ls -l
-          sha256sum -- $(ls | grep -E '\.(dmg|zip|tar\.gz|msi)$') > SHA256SUMS.txt
+          shopt -s nullglob
+          files=(*.dmg *.zip *.tar.gz *.msi)
+          sha256sum -- "${files[@]}" > SHA256SUMS.txt
           cat SHA256SUMS.txt
       - name: Create or update the release
         working-directory: artifacts
