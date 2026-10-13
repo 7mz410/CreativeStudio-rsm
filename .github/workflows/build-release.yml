@@ -1,0 +1,194 @@
+# Reusable: builds the unsigned macOS (aarch64 .dmg), Windows (x64 portable .zip) and Linux
+# (x86_64 .tar.gz) packages of one Craft app for a tag, then creates or updates the GitHub Release
+# with the assets and SHA256SUMS.txt. The asset names are what the launcher (mansa,
+# crates/core/src/platform.rs) parses: <app>-<version>-<os>-<arch>[-portable].<ext>.
+#
+# Other apps call it from their own repo, with the caller's repo checked out:
+#   uses: 7mz410/CreativeStudio-rsm/.github/workflows/build-release.yml@main
+#   with: { app: tlween, tag: "${{ github.ref_name }}" }
+#   permissions: { contents: write }
+#
+# Nothing is signed: Gatekeeper and SmartScreen will warn, see the release notes in the README.
+name: Build release (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      app:
+        description: "Asset name prefix, e.g. rsm. Must be the launcher catalog's stem for the app."
+        type: string
+        required: true
+      tag:
+        description: "Release tag, e.g. v0.0.1-test. The version is the tag without the v. A version with a '-' is a pre-release."
+        type: string
+        required: true
+      binary:
+        description: "Windows executable name (cargo bin/package name) to ship in the portable zip."
+        type: string
+        default: vectorcraft
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-release-${{ inputs.app }}-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  macos:
+    name: macOS aarch64 (.dmg)
+    runs-on: macos-14
+    env:
+      CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
+      CRAFT_FONTS_REQUIRED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: storytold/craft-fonts
+          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          path: craft-fonts
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
+        with:
+          targets: aarch64-apple-darwin
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: release-macos-aarch64
+      - name: Build and package (ad-hoc signed, not notarized)
+        env:
+          VECTORCRAFT_VERSION: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          v="${VECTORCRAFT_VERSION#v}"
+          VECTORCRAFT_VERSION="$v" packaging/macos/package.sh --arch aarch64
+          mv "dist/release/vectorcraft-$v-macos-aarch64.dmg" "dist/release/${{ inputs.app }}-$v-macos-aarch64.dmg"
+          rm -f dist/release/vectorcraft-cli-*.zip
+          ls -lh dist/release
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-macos
+          path: dist/release/*.dmg
+          if-no-files-found: error
+
+  windows:
+    name: Windows x64 (portable .zip)
+    runs-on: windows-latest
+    env:
+      VECTORCRAFT_VERSION: ${{ inputs.tag }}
+      CRAFT_FONTS_DIR: ${{ github.workspace }}\craft-fonts
+      CRAFT_FONTS_REQUIRED: "1"
+      # Static CRT: no Visual C++ redistributable needed (same as packaging/windows/package.ps1).
+      CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: "-C target-feature=+crt-static"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: storytold/craft-fonts
+          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          path: craft-fonts
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: release-windows-x64
+      - name: Build
+        shell: pwsh
+        run: cargo build --release --locked -p ${{ inputs.binary }} --target x86_64-pc-windows-msvc
+      - name: Zip the portable build
+        shell: pwsh
+        env:
+          APP: ${{ inputs.app }}
+          BIN: ${{ inputs.binary }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $v = $env:VECTORCRAFT_VERSION.TrimStart('v')
+          $stage = Join-Path $env:RUNNER_TEMP 'stage'
+          Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "target\x86_64-pc-windows-msvc\release\$env:BIN.exe" $stage
+          Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE $stage
+          New-Item -ItemType Directory -Force -Path dist\release | Out-Null
+          $zip = "dist\release\$env:APP-$v-windows-x64-portable.zip"
+          Compress-Archive -Path "$stage\*" -DestinationPath $zip
+          Get-ChildItem dist\release | Format-Table Name, Length
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-windows
+          path: dist/release/*.zip
+          if-no-files-found: error
+
+  linux:
+    name: Linux x86_64 (.tar.gz)
+    # Oldest hosted image: the binary needs glibc 2.35 or newer (Ubuntu 22.04+).
+    runs-on: ubuntu-22.04
+    env:
+      VECTORCRAFT_VERSION: ${{ inputs.tag }}
+      CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
+      CRAFT_FONTS_REQUIRED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: storytold/craft-fonts
+          ref: 3d9ab3a132ed0eff457e424226a435a901da30d3
+          path: craft-fonts
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libxkbcommon-dev libwayland-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: release-linux-x86_64
+      - name: Build and package (tar.gz)
+        run: |
+          set -euo pipefail
+          v="${VECTORCRAFT_VERSION#v}"
+          VECTORCRAFT_VERSION="$v" packaging/linux/package.sh --formats tar
+          mv "dist/release/vectorcraft-$v-linux-x86_64.tar.gz" "dist/release/${{ inputs.app }}-$v-linux-x86_64.tar.gz"
+          tar -tzf "dist/release/${{ inputs.app }}-$v-linux-x86_64.tar.gz" | grep -E '/usr/bin/vectorcraft$'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-linux
+          path: dist/release/*.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [macos, windows, linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: release-*
+          path: artifacts
+          merge-multiple: true
+      - name: Checksums
+        working-directory: artifacts
+        run: |
+          set -euo pipefail
+          ls -l
+          sha256sum -- *.dmg *.zip *.tar.gz > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+      - name: Create or update the release
+        working-directory: artifacts
+        run: |
+          set -euo pipefail
+          pre=()
+          case "$TAG" in *-*) pre=(--prerelease) ;; esac
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" --clobber -- *
+          else
+            gh release create "$TAG" --title "${{ inputs.app }} $TAG" --target "$GITHUB_SHA" \
+              --notes "Unsigned builds. macOS: right-click the app and choose Open the first time (or run xattr -dr com.apple.quarantine). Windows: SmartScreen warning, choose More info > Run anyway." \
+              "${pre[@]}" -- *
+          fi
+          gh release view "$TAG" --json tagName,isPrerelease,assets --jq '{tagName, isPrerelease, assets: [.assets[].name]}'
