@@ -93,6 +93,8 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           key: release-macos-aarch64
+      - name: Install resvg (some apps draw their DMG background with it)
+        run: brew install resvg
       - name: Build and package (ad-hoc signed, not notarized)
         env:
           TAG: ${{ inputs.tag }}
@@ -212,7 +214,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            libxkbcommon-dev libwayland-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev
+            libxkbcommon-dev libwayland-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev \
+            libxcursor-dev libasound2-dev libgtk-3-dev libfontconfig1-dev libfreetype-dev pkg-config cmake
       - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
