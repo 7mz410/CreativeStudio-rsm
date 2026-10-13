@@ -1,0 +1,24 @@
+# Creative Studio release for rsm: a tag push (v0.0.2-test, v0.1.0, ...) builds the unsigned rsm
+# packages for macOS, Windows and Linux through build-release.yml. A tag with a '-' in it becomes a
+# pre-release. Kept apart from the upstream release.yml so merges from storytold/vectorcraft stay clean.
+name: Studio release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Release rsm
+    permissions:
+      contents: write
+    uses: ./.github/workflows/build-release.yml
+    with:
+      app: rsm
+      package: vectorcraft
+      version_var: VECTORCRAFT_VERSION
+      bundle: rsm.app
+      tag: ${{ github.ref_name }}

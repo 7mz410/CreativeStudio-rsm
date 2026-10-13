@@ -151,6 +151,18 @@ EXT_FILES = {
     'crates/engine/src/cmd/fileio/tests.rs': [
         ('        exts,\n        [\n            "vectorcraft",', '        exts,\n        [\n            "rsm",'),
     ],
+    # Packaging: the names a user sees (the app folder in the .dmg, the volume name, the Linux menu
+    # entry). Bundle and binary names inside the packages stay as upstream has them.
+    'packaging/macos/package.sh': [
+        ('VectorCraft.app', 'rsm.app'),
+        ('-volname "VectorCraft"', '-volname "rsm"'),
+    ],
+    'packaging/linux/ai.storyteller.vectorcraft.desktop': [
+        ('Name=VectorCraft\n', 'Name=rsm\n'),
+    ],
+    'packaging/linux/ai.storyteller.vectorcraft.metainfo.xml.in': [
+        ('<name>VectorCraft</name>', '<name>rsm</name>'),
+    ],
 }
 # Tests that expect the names native saves suggest: their `.vectorcraft` file names become `.rsm`.
 EXT_TESTS = {
