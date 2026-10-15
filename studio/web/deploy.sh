@@ -4,6 +4,7 @@
 SP=$(mktemp -d)
 export PATH="/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$PATH"
 CS=$HOME/Documents/CreativeStudio
+export CRAFT_FONTS_DIR=$CS/craft-fonts  # apps embed their web fonts (UI face, Arabic) from it
 for a in "$@"; do
   echo "===== $a"
   cd $CS/$a || continue
