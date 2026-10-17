@@ -69,6 +69,10 @@ on:
         description: "Arguments for windows_script, e.g. -Arch x64."
         type: string
         default: "-Arch x64"
+      mcpb_cli:
+        description: "Headless CLI with an `mcp` subcommand, e.g. effectcraft-cli. Set: also publishes Claude Desktop extensions (<app>-<version>-<os>-<arch>.mcpb) built from the caller's studio/mcpb/manifest.json. Needs the macOS script to make <package>-cli-<version>-macos-aarch64.zip and the Windows portable zip to hold <cli>.exe."
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -113,8 +117,16 @@ jobs:
             new="${{ inputs.app }}${f#"${{ inputs.package }}"}"
             [ "$f" = "$new" ] || mv "$f" "$new"
           done
+          mkdir -p ../cli
+          if [ -n "${{ inputs.mcpb_cli }}" ]; then mv ./*-cli-*-macos-*.zip ../cli/; fi
           rm -f ./*-cli-*
           ls -lh
+      - if: inputs.mcpb_cli != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cli-macos
+          path: dist/cli/*.zip
+          if-no-files-found: error
       - name: Check the .dmg shows the app
         env:
           TAG: ${{ inputs.tag }}
@@ -177,6 +189,7 @@ jobs:
           WIN_SCRIPT: ${{ inputs.windows_script }}
           WIN_ARGS: ${{ inputs.windows_args }}
           VERSION_VAR: ${{ inputs.version_var }}
+          CLI: ${{ inputs.mcpb_cli }}
         run: |
           $ErrorActionPreference = 'Stop'
           $v = $env:TAG.TrimStart('v')
@@ -187,12 +200,14 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw "$env:WIN_SCRIPT failed ($LASTEXITCODE)" }
           } else {
             # Generic: the executable and the licences, zipped at the top level.
-            cargo build --release --locked -p $env:PKG --target x86_64-pc-windows-msvc
+            $pkgs = @('-p', $env:PKG); if ($env:CLI) { $pkgs += @('-p', $env:CLI) }
+            cargo build --release --locked @pkgs --target x86_64-pc-windows-msvc
             if ($LASTEXITCODE -ne 0) { throw "cargo build failed ($LASTEXITCODE)" }
             $stage = Join-Path $env:RUNNER_TEMP 'stage'
             Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
             New-Item -ItemType Directory -Force -Path $stage | Out-Null
             Copy-Item "target\x86_64-pc-windows-msvc\release\$env:BIN.exe" $stage
+            if ($env:CLI) { Copy-Item "target\x86_64-pc-windows-msvc\release\$env:CLI.exe" $stage }
             Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE $stage
             New-Item -ItemType Directory -Force -Path dist\release | Out-Null
             Compress-Archive -Path "$stage\*" -DestinationPath "dist\release\$env:PKG-$v-windows-x64-portable.zip"
@@ -275,13 +290,46 @@ jobs:
           pattern: release-*
           path: artifacts
           merge-multiple: true
+      - if: inputs.mcpb_cli != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: caller
+          sparse-checkout: studio/mcpb
+      - if: inputs.mcpb_cli != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: cli-macos
+          path: cli
+      - name: Claude Desktop extensions (.mcpb)
+        if: inputs.mcpb_cli != ''
+        env:
+          CLI: ${{ inputs.mcpb_cli }}
+          APP: ${{ inputs.app }}
+        run: |
+          set -euo pipefail
+          v="${TAG#v}"
+          # mcpb <os-arch> <platform> <cli file name> <zip holding it>: an .mcpb is a zip of
+          # manifest.json and server/<cli>.
+          mcpb() {
+            d="$RUNNER_TEMP/mcpb-$1"; rm -rf "$d"; mkdir -p "$d/server" "$RUNNER_TEMP/x-$1"
+            unzip -q -o "$4" -d "$RUNNER_TEMP/x-$1"
+            bin=$(find "$RUNNER_TEMP/x-$1" -type f -name "$3" | head -1)
+            test -n "$bin" || { echo "::error::$3 not in $4"; exit 1; }
+            install -m 755 "$bin" "$d/server/$3"
+            sed -e "s/__VERSION__/$v/" -e "s/__CLI__/$3/g" -e "s/__PLATFORM__/$2/" caller/studio/mcpb/manifest.json > "$d/manifest.json"
+            jq -e . "$d/manifest.json" >/dev/null
+            (cd "$d" && zip -q -r -X "$GITHUB_WORKSPACE/artifacts/$APP-$v-$1.mcpb" manifest.json server)
+          }
+          mcpb macos-aarch64 darwin "$CLI" cli/*-macos-aarch64.zip
+          mcpb windows-x64 win32 "$CLI.exe" artifacts/*-windows-x64-portable.zip
+          ls -l artifacts/*.mcpb
       - name: Checksums
         working-directory: artifacts
         run: |
           set -euo pipefail
           ls -l
           shopt -s nullglob
-          files=(*.dmg *.zip *.tar.gz *.msi)
+          files=(*.dmg *.zip *.tar.gz *.msi *.mcpb)
           sha256sum -- "${files[@]}" > SHA256SUMS.txt
           cat SHA256SUMS.txt
       - name: Create or update the release
