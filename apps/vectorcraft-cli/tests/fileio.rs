@@ -87,7 +87,7 @@ fn images_open_at_their_pixel_size() {
 #[test]
 fn help_lists_readable_formats() {
     let out = ok(&["--help"]);
-    assert!(out.contains("Readable formats: .vectorcraft") && out.contains(".ait") && out.contains(".webp"), "{out}");
+    assert!(out.contains("Readable formats: .rsm") && out.contains(".ait") && out.contains(".webp"), "{out}");
 }
 
 #[test]
@@ -129,7 +129,7 @@ fn convert_reports_import_warnings() {
 #[test]
 fn convert_writes_legacy_ai_with_its_options() {
     // Two artboards, a shown rectangle and a hidden one.
-    let src = tmp("legacy.vectorcraft");
+    let src = tmp("legacy.rsm");
     ok(&[
         "run",
         "--cmd",

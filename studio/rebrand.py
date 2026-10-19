@@ -19,6 +19,9 @@ KEEP = ('VectorCraft Default',)
 
 # Exact replacements, applied before the general rename.
 SPECIFIC = {
+    'crates/engine/src/cmd/findfiles/walk.rs': [
+        ("VectorCraft doesn't search", "rsm doesn't search"),
+    ],
     'crates/engine/src/cmd/help.rs': [
         ('pub const WEBSITE_URL: &str = "https://getartcraft.com";', f'pub const WEBSITE_URL: &str = "{SITE}";'),
         ('format!("{WEBSITE_URL}/apps/{APP_ID}")', 'WEBSITE_URL.to_string()'),
@@ -138,9 +141,12 @@ EXT_FILES = {
         ('"<array><string>vectorcraft</string><string>drawcraft</string></array>"',
          '"<array><string>rsm</string><string>vectorcraft</string><string>drawcraft</string></array>"'),
     ],
+    'apps/vectorcraft/src/mac_save_format.rs': [
+        ('&["vectorcraft"][..]', '&["rsm"][..]'),
+    ],
     'Cargo.toml': [
-        ('[workspace.dependencies]\n',
-         '[patch.crates-io]\n# Creative Studio: egui with a right-to-left switch for the Arabic interface (studio/RTL.md).\negui = { path = "vendor/egui" }\n\n[workspace.dependencies]\n'),
+        ('[patch.crates-io]\n',
+         '[patch.crates-io]\n# Creative Studio: egui with a right-to-left switch for the Arabic interface (studio/RTL.md).\negui = { path = "vendor/egui" }\n'),
     ],
     'apps/vectorcraft/src/main.rs': [
         ('mod printing;\n',
@@ -174,6 +180,10 @@ EXT_TESTS = {
     'crates/ui-egui/src/dialogs/tests_package.rs',
     'crates/ui-egui/src/tests_nativeoptions.rs',
     'crates/ui-egui/src/tests_saveext.rs',
+    'crates/engine/src/cmd/fileio/tests.rs',
+    'crates/engine/src/cmd/fileio/tests_batch.rs',
+    'apps/vectorcraft-cli/tests/fileio.rs',
+    'crates/ui-egui/src/tests_picks.rs',
 }
 for _t in EXT_TESTS:
     EXT_FILES.setdefault(_t, [])

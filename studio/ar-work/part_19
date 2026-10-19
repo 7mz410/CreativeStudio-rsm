@@ -833,12 +833,10 @@ theme	Appearance
 	Essentials
 	Essentials Classic
 	Layout
-	OpenType
 	Painting
 	Printing and Proofing
 	Tracing
 	Typography
-	rsm
 	Web
 	[1P-High View]
 	[1P-Low View]
@@ -1069,3 +1067,5 @@ swatch	Bright Violet
 	Stop on Errors
 	Save and Close
 	Play:
+	OpenType
+	rsm

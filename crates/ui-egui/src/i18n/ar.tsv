@@ -3959,8 +3959,8 @@ axis	Both	كلاهما
 @msg	give only one of onto, below and above	حدد واحداً فقط من onto وbelow وabove
 @msg	column must be true or a number from 1	يجب أن يكون العمود true أو رقماً من 1
 @msg	No fonts are missing in this document	لا توجد خطوط مفقودة في هذا المستند
-@msg	VectorCraft doesn't search other apps' or the system's folders: {path}	لا يبحث رسم في مجلدات البرامج الأخرى أو النظام: {path}
-@msg	VectorCraft doesn't search the Shared or Public folder in Users: {path}	لا يبحث رسم في مجلد Shared أو Public في Users: {path}
+@msg	rsm doesn't search other apps' or the system's folders: {path}	لا يبحث رسم في مجلدات البرامج الأخرى أو النظام: {path}
+@msg	rsm doesn't search the Shared or Public folder in Users: {path}	لا يبحث رسم في مجلد Shared أو Public في Users: {path}
 @msg	{path} is not a folder	{path} ليس مجلداً
 @msg	the search couldn't start: try again in a moment	تعذّر بدء البحث: حاول مرة أخرى بعد قليل
 @msg	searching a folder isn't available on the web	البحث في مجلد غير متاح على الويب
@@ -4423,8 +4423,8 @@ lighting	Light	الضوء
 	Import Matches	استيراد التطابقات
 	Remember Import Matches	تذكر استيراد التطابقات
 	Forget Import Matches	ننسى استيراد المباريات
-@plural	agrees with {n} default shortcut|agrees with {n} default shortcuts	لا يتطابق مع أي اختصار افتراضي|يتطابق مع اختصار افتراضي واحد|يتطابق مع اختصارين افتراضيين|يتطابق مع {n} اختصارات افتراضية|يتطابق مع {n} اختصاراً افتراضياً|يتطابق مع {n} اختصار افتراضي
-@plural	{n} part of the file wasn't read|{n} parts of the file weren't read	لم يُقرأ أي جزء من الملف|لم يُقرأ جزء واحد من الملف|لم يُقرأ جزءان من الملف|لم تُقرأ {n} أجزاء من الملف|لم يُقرأ {n} جزءاً من الملف|لم يُقرأ {n} جزء من الملف
+@plural	agrees with {n} default shortcut|agrees with {n} default shortcuts	لا يتطابق مع {n} اختصار افتراضي|يتطابق مع {n} اختصار افتراضي|يتطابق مع {n} اختصارين افتراضيين|يتطابق مع {n} اختصارات افتراضية|يتطابق مع {n} اختصاراً افتراضياً|يتطابق مع {n} اختصار افتراضي
+@plural	{n} part of the file wasn't read|{n} parts of the file weren't read	لم يُقرأ {n} جزء من الملف|لم يُقرأ جزء واحد من الملف ({n})|لم يُقرأ جزءان من الملف ({n})|لم تُقرأ {n} أجزاء من الملف|لم يُقرأ {n} جزءاً من الملف|لم يُقرأ {n} جزء من الملف
 	Remove Color Profile…	إزالة ملف تعريف الألوان…
 	New Artboard Options…	خيارات جديدة للوحة الرسم…
 	Outline Object	كائن المخطط التفصيلي
@@ -4962,9 +4962,9 @@ effect	Soft	مرن
 @id	file.close	ملف.إغلاق
 @id	pathfinder.add	باثفايندر.إضافة
 @msg	this kind of brush has no options dialog yet	هذا النوع من الفرش لا يحتوي على مربع حوار خيارات حتى الآن
-@plural	{n} PR|{n} PRs	لا توجد طلبات سحب PR|طلب سحب PR واحد|طلبا سحب PR|{n} طلبات سحب PR|{n} طلب سحب PR|{n} طلب سحب PR
-@plural	{n} commit|{n} commits	لا توجد إيداعات|إيداع واحد|إيداعان|{n} إيداعات|{n} إيداعاً|{n} إيداع
-@plural	{n} shortcut is assigned more than once|{n} shortcuts are assigned more than once	لم يُعيَّن أي اختصار أكثر من مرة|تم تعيين اختصار واحد أكثر من مرة|تم تعيين اختصارين أكثر من مرة|تم تعيين {n} اختصارات أكثر من مرة|تم تعيين {n} اختصاراً أكثر من مرة|تم تعيين {n} اختصار أكثر من مرة
+@plural	{n} PR|{n} PRs	لا توجد طلبات سحب PR ({n})|طلب سحب PR واحد ({n})|طلبا سحب PR ({n})|{n} طلبات سحب PR|{n} طلب سحب PR|{n} طلب سحب PR
+@plural	{n} commit|{n} commits	لا توجد إيداعات ({n})|إيداع واحد ({n})|إيداعان ({n})|{n} إيداعات|{n} إيداعاً|{n} إيداع
+@plural	{n} shortcut is assigned more than once|{n} shortcuts are assigned more than once	لم يُعيَّن أي اختصار أكثر من مرة ({n})|تم تعيين اختصار واحد أكثر من مرة ({n})|تم تعيين اختصارين أكثر من مرة ({n})|تم تعيين {n} اختصارات أكثر من مرة|تم تعيين {n} اختصاراً أكثر من مرة|تم تعيين {n} اختصار أكثر من مرة
 diagnostics	render	تقديم
 diagnostics	ui	ui
 effect	Horizontal	أفقي
@@ -5015,12 +5015,10 @@ theme	Appearance	المظهر
 	Essentials	أساسيات
 	Essentials Classic	أساسيات كلاسيكية
 	Layout	تخطيط
-	OpenType	OpenType
 	Painting	رسم
 	Printing and Proofing	طباعة ومعاينة
 	Tracing	تتبع
 	Typography	طباعة ونصوص
-	rsm	رسم
 	Web	ويب
 	[1P-High View]	[منظور نقطة واحدة - عرض علوي]
 	[1P-Low View]	[منظور نقطة واحدة - عرض سفلي]
@@ -5157,7 +5155,7 @@ theme	Appearance	المظهر
 	Library Panel Options	خيارات لوحة المكتبة
 	Artboard {n} of {total}	لوحة الرسم {n} من {total}
 	Encoding and writing the file…	ترميز الملف وكتابته…
-@plural	{n} more export waiting|{n} more exports waiting	لا توجد عمليات تصدير أخرى في الانتظار|عملية تصدير واحدة أخرى في الانتظار|عمليتا تصدير أخريان في الانتظار|{n} عمليات تصدير أخرى في الانتظار|{n} عملية تصدير أخرى في الانتظار|{n} عملية تصدير أخرى في الانتظار
+@plural	{n} more export waiting|{n} more exports waiting	لا توجد عمليات تصدير أخرى في الانتظار ({n})|عملية تصدير واحدة أخرى في الانتظار ({n})|عمليتا تصدير أخريان في الانتظار ({n})|{n} عمليات تصدير أخرى في الانتظار|{n} عملية تصدير أخرى في الانتظار|{n} عملية تصدير أخرى في الانتظار
 	Continue in Background	المتابعة في الخلفية
 	Cancel Export	إلغاء التصدير
 @msg	Export cancelled	تم إلغاء التصدير
@@ -5251,3 +5249,5 @@ swatch	Bright Violet	بنفسجي ساطع
 	Stop on Errors	إيقاف عند الأخطاء
 	Save and Close	حفظ وإغلاق
 	Play:	تشغيل:
+	OpenType	OpenType
+	rsm	rsm

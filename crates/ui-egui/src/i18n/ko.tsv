@@ -3858,6 +3858,8 @@ theme	Appearance	외관
 @msg	`freeform.points` must be an array	`freeform.points`는 배열이어야 합니다
 @msg	`freeform.lines` must be an array	`freeform.lines`는 배열이어야 합니다
 @msg	`{key}` must be a number	`{key}`은(는) 숫자여야 합니다
+@msg	`{key}` must be a number, not {v}	`{key}`은(는) 숫자여야 하며 {v}은(는) 안 됩니다
+@msg	{key} must be Unix seconds (an integer) or null	{key}은(는) 초 단위 Unix 시간(정수) 또는 null이어야 합니다
 @msg	a freeform gradient keeps at least one point	자유형 그레이디언트에는 점이 하나 이상 있어야 합니다
 @msg	freeform point {i} needs `at` [x, y] and a valid `color`	자유형 점 {i}에는 `at` [x, y]과 올바른 `color`가 필요합니다
 @msg	freeform line {i} must be an array of point indices	자유형 선 {i}은(는) 점 인덱스 배열이어야 합니다
@@ -4097,6 +4099,7 @@ theme	Appearance	외관
 @msg	cannot read PDF: {0}	PDF를 읽을 수 없습니다: {0}
 @msg	invalid PDF setting: {0}	잘못된 PDF 설정: {0}
 @msg	page {0} does not exist (the PDF has {1})	페이지 {0}이(가) 없습니다(PDF의 페이지 수: {1})
+@msg	thumbnail: no page {n} (the file has 1)	thumbnail: 페이지 {n}이(가) 없습니다(파일의 페이지 수: 1)
 @msg	the PDF has no pages	PDF에 페이지가 없습니다
 @msg	the PDF is password-protected: give its password	PDF가 암호로 보호되어 있습니다: 암호를 입력하세요
 @msg	the PDF password is wrong	PDF 암호가 올바르지 않습니다
@@ -4249,6 +4252,7 @@ theme	Appearance	외관
 @msg	missing `tool`	`tool`이 없습니다
 @msg	missing index	index가 없습니다
 @msg	missing number `{key}`	숫자 `{key}`이(가) 없습니다
+@msg	missing integer `{key}`	정수 `{key}`이(가) 없습니다
 @msg	multiple windows land with M11.5	여러 창은 M11.5에서 지원됩니다
 @msg	no PNG encoder	PNG 인코더가 없습니다
 @msg	no document open	열린 문서가 없습니다
@@ -4333,8 +4337,8 @@ theme	Appearance	외관
 @msg	x and y must be finite	x와 y는 유한한 값이어야 합니다
 @msg	t, dx and dy must be finite	t, dx, dy는 유한한 값이어야 합니다
 @msg	No fonts are missing in this document	이 문서에는 누락된 글꼴이 없습니다
-@msg	VectorCraft doesn't search other apps' or the system's folders: {path}	VectorCraft는 다른 앱이나 시스템의 폴더를 검색하지 않습니다: {path}
-@msg	VectorCraft doesn't search the Shared or Public folder in Users: {path}	VectorCraft는 사용자 폴더의 공유 또는 공용 폴더를 검색하지 않습니다: {path}
+@msg	rsm doesn't search other apps' or the system's folders: {path}	rsm는 다른 앱이나 시스템의 폴더를 검색하지 않습니다: {path}
+@msg	rsm doesn't search the Shared or Public folder in Users: {path}	rsm는 사용자 폴더의 공유 또는 공용 폴더를 검색하지 않습니다: {path}
 @msg	{path} is not a folder	{path}은(는) 폴더가 아닙니다
 @msg	the search couldn't start: try again in a moment	검색을 시작할 수 없습니다: 잠시 후 다시 시도하세요
 @msg	searching a folder isn't available on the web	웹에서는 폴더 검색을 사용할 수 없습니다
@@ -4359,6 +4363,9 @@ theme	Appearance	외관
 @msg	`{text}`: step {i}'s result has no such value (write $$ for a literal $)	`{text}`: 단계 {i}의 결과에 해당 값이 없습니다(문자 그대로의 $는 $$로 쓰세요)
 @msg	`{text}`: there is no step {i} before this one (steps count from 0; write $$ for a literal $)	`{text}`: 이 단계 앞에 단계 {i}이(가) 없습니다(단계는 0부터 셉니다. 문자 그대로의 $는 $$로 쓰세요)
 @msg	object ids are non-negative integers, not {v}	개체 id는 음이 아닌 정수여야 하며 {v}은(는) 안 됩니다
+@msg	{key} must be an array of non-negative integer object ids	{key}은(는) 음이 아닌 정수인 개체 id의 배열이어야 합니다
+@msg	invalid object id {value}: expected a non-negative integer	개체 id {value}이(가) 올바르지 않습니다: 음이 아닌 정수여야 합니다
+@msg	no such object id {value}	id가 {value}인 개체가 없습니다
 @msg	automation filesystem access is not granted: read authority is absent: {path}	자동화 파일 시스템 접근이 허용되지 않았습니다: 읽기 권한이 없습니다: {path}
 @msg	automation filesystem access is not granted: write authority is absent: {path}	자동화 파일 시스템 접근이 허용되지 않았습니다: 쓰기 권한이 없습니다: {path}
 @msg	automation path rejected: outside the read root {root}: {path}	자동화 경로가 거부되었습니다: 읽기 루트 {root} 밖입니다: {path}
@@ -4793,3 +4800,6 @@ lighting	Light	광원
 	They connect on this computer only.	이 컴퓨터에서만 연결됩니다.
 	Adds this app to the agent's settings.	이 앱을 에이전트 설정에 추가합니다.
 	Restart the agent app afterwards.	그런 다음 에이전트 앱을 다시 시작하세요.
+@msg	the file's variables and data sets weren't read (variables: {variables}, data sets: {data_sets}): the Variables panel doesn't list them	파일의 변수와 데이터 세트를 읽지 않았습니다(변수: {variables}, 데이터 세트: {data_sets}). 변수 패널에 표시되지 않습니다
+# Select by Color (select.color)
+	Select by Color	색상별 선택

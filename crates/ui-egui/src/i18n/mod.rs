@@ -107,7 +107,7 @@ fn plural_polish(n: u64) -> usize {
 }
 
 /// The registry. English first: it is the fallback and the source language.
-pub static LANGUAGES: [LangInfo; 24] = [
+pub static LANGUAGES: [LangInfo; 25] = [
     LangInfo { code: "en", name: "English", source: "", plural: plural_one_other, complete_menus: false, catalog: OnceLock::new() },
     // Arabic (Creative Studio): the whole interface; drawn with IBM Plex Sans Arabic.
     LangInfo { code: "ar", name: "العربية", source: include_str!("ar.tsv"), plural: plural_arabic, complete_menus: true, catalog: OnceLock::new() },
@@ -169,6 +169,12 @@ pub static LANGUAGES: [LangInfo; 24] = [
         complete_menus: true,
         catalog: OnceLock::new(),
     },
+    // Georgian: the whole interface and the status and error messages, keeping the same names in
+    // English as Spanish. Georgian nouns stay singular after a number, so one plural form;
+    // `ka-GE` and `ka_GE.UTF-8` resolve here.
+    LangInfo {
+        code: "ka", name: "ქართული", source: include_str!("ka.tsv"), plural: plural_none, complete_menus: true, catalog: OnceLock::new()
+    },
     // Russian: the whole interface and the status and error messages, keeping the same names in
     // English as Spanish; every `ru-*` locale (`ru-RU`, `ru-BY`, `ru-KZ` …) resolves here.
     LangInfo {
@@ -228,8 +234,8 @@ pub static LANGUAGES: [LangInfo; 24] = [
         complete_menus: true,
         catalog: OnceLock::new(),
     },
-    // Traditional Chinese in the vocabulary used in Taiwan; `zh-TW`, `zh-HK`, `zh-MO` and `zh-Hant-*`
-    // locales all resolve here (see `candidates`).
+    // Traditional Chinese in the vocabulary used in Taiwan: the whole interface and the status and
+    // error messages; `zh-TW`, `zh-HK`, `zh-MO` and `zh-Hant-*` locales all resolve here (see `candidates`).
     LangInfo {
         code: "zh-hant",
         name: "繁體中文",
