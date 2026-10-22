@@ -228,10 +228,10 @@ mod tests {
     /// type. The others stay allowed.
     #[test]
     fn the_chosen_format_is_the_first_allowed_type() {
-        assert_eq!(allowed_types(&filters(), 0), ["vectorcraft", "svg", "pdf"]);
-        assert_eq!(allowed_types(&filters(), 1), ["svg", "vectorcraft", "pdf"]);
-        assert_eq!(allowed_types(&filters(), 2), ["pdf", "vectorcraft", "svg"]);
-        assert_eq!(allowed_types(&filters(), 9), ["vectorcraft", "svg", "pdf"]);
+        assert_eq!(allowed_types(&filters(), 0), ["rsm", "svg", "pdf"]);
+        assert_eq!(allowed_types(&filters(), 1), ["svg", "rsm", "pdf"]);
+        assert_eq!(allowed_types(&filters(), 2), ["pdf", "rsm", "svg"]);
+        assert_eq!(allowed_types(&filters(), 9), ["rsm", "svg", "pdf"]);
     }
 
     /// Each entry of the Save As menu gives a name the save command reads as that entry's format.
