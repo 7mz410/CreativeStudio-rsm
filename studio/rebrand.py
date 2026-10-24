@@ -182,7 +182,7 @@ EXT_TESTS = {
     'crates/ui-egui/src/tests_saveext.rs',
     'crates/engine/src/cmd/fileio/tests.rs',
     'crates/engine/src/cmd/fileio/tests_batch.rs',
-    'apps/vectorcraft-cli/tests/fileio.rs',
+    'apps/vectorcraft-cli/tests/it/fileio.rs',
     'crates/ui-egui/src/tests_picks.rs',
 }
 for _t in EXT_TESTS:
