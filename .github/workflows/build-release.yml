@@ -45,6 +45,14 @@ on:
         description: "storytold/craft-fonts commit to build with (apps pin the one their build expects)."
         type: string
         default: 3d9ab3a132ed0eff457e424226a435a901da30d3
+      i18n_repo:
+        description: "craft-i18n repository whose catalogs the build embeds (CRAFT_I18N_DIR). Empty: none, the app builds as it always did."
+        type: string
+        default: ""
+      i18n_ref:
+        description: "Commit of i18n_repo to build with."
+        type: string
+        default: ""
       macos_script:
         description: "macOS packaging script, run from the repo root."
         type: string
@@ -88,6 +96,8 @@ jobs:
     env:
       CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
       CRAFT_FONTS_REQUIRED: "1"
+      CRAFT_I18N_DIR: ${{ inputs.i18n_ref != '' && format('{0}/craft-i18n', github.workspace) || '' }}
+      CRAFT_I18N_REQUIRED: ${{ inputs.i18n_ref != '' && '1' || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -95,6 +105,12 @@ jobs:
           repository: storytold/craft-fonts
           ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: inputs.i18n_ref != ''
+        with:
+          repository: ${{ inputs.i18n_repo }}
+          ref: ${{ inputs.i18n_ref }}
+          path: craft-i18n
       - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
         with:
           targets: aarch64-apple-darwin
@@ -165,6 +181,8 @@ jobs:
     env:
       CRAFT_FONTS_DIR: ${{ github.workspace }}\craft-fonts
       CRAFT_FONTS_REQUIRED: "1"
+      CRAFT_I18N_DIR: ${{ inputs.i18n_ref != '' && format('{0}\craft-i18n', github.workspace) || '' }}
+      CRAFT_I18N_REQUIRED: ${{ inputs.i18n_ref != '' && '1' || '' }}
       # Static CRT: no Visual C++ redistributable needed (same as packaging/windows/package.ps1).
       CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: "-C target-feature=+crt-static"
     steps:
@@ -174,6 +192,12 @@ jobs:
           repository: storytold/craft-fonts
           ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: inputs.i18n_ref != ''
+        with:
+          repository: ${{ inputs.i18n_repo }}
+          ref: ${{ inputs.i18n_ref }}
+          path: craft-i18n
       - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
         with:
           targets: x86_64-pc-windows-msvc
@@ -233,6 +257,8 @@ jobs:
     env:
       CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
       CRAFT_FONTS_REQUIRED: "1"
+      CRAFT_I18N_DIR: ${{ inputs.i18n_ref != '' && format('{0}/craft-i18n', github.workspace) || '' }}
+      CRAFT_I18N_REQUIRED: ${{ inputs.i18n_ref != '' && '1' || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -240,6 +266,12 @@ jobs:
           repository: storytold/craft-fonts
           ref: ${{ inputs.fonts_ref }}
           path: craft-fonts
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: inputs.i18n_ref != ''
+        with:
+          repository: ${{ inputs.i18n_repo }}
+          ref: ${{ inputs.i18n_ref }}
+          path: craft-i18n
       - name: Install build dependencies
         run: |
           sudo apt-get update
