@@ -38,15 +38,25 @@ improvements that help everyone, such as the Arabic translation, back upstream.
 
 ## The Creative Studio suite
 
-| App | For | Based on | Status |
-|---|---|---|---|
-| **rsm** | Vector illustration | [VectorCraft](https://github.com/storytold/vectorcraft) | Branded fork |
-| Creative Studio tlween | Image editing | [PhotoCraft](https://github.com/storytold/photocraft) | Planned |
-| Creative Studio trteeb | Page layout | [DesignCraft](https://github.com/storytold/designcraft) | Planned (upstream in development) |
-| Creative Studio tsweer | Video editing | [FilmCraft](https://github.com/storytold/filmcraft) | Planned |
-| Creative Studio effectat | Motion graphics | [EffectCraft](https://github.com/storytold/effectcraft) | Planned |
-| Creative Studio 7rrek | Character animation (tweens + frame by frame) | rsm | Planned |
-| Creative Studio sharek | Collaborative design | to be decided | Planned |
+Fifteen free, open-source apps with an Arabic interface laid out right to left. [mansa (المنصّة)](https://github.com/7mz410/CreativeStudio-mansa) installs and updates them all. The whole suite: [github.com/7mz410/CreativeStudio](https://github.com/7mz410/CreativeStudio) · [studio.creative.ps](https://studio.creative.ps/).
+
+| App | | What it's for | Saves as | Based on |
+|---|---|---|---|---|
+| **rsm** | رسم | Vector illustration | `.rsm` | VectorCraft |
+| [7rrek](https://github.com/7mz410/CreativeStudio-7rrek) | حرّك | Animation | `.7rrek` | VectorCraft (via rsm) |
+| [tlween](https://github.com/7mz410/CreativeStudio-tlween) | تلوين | Image editing | `.tlween` | PhotoCraft |
+| [lamasat](https://github.com/7mz410/CreativeStudio-lamasat) | لمسات | Photo library and raw development | — | LightCraft |
+| [tsweer](https://github.com/7mz410/CreativeStudio-tsweer) | تصوير | Video editing | `.tsweer` | FilmCraft |
+| [effectat](https://github.com/7mz410/CreativeStudio-effectat) | تأثيرات | Motion graphics and effects | `.effectat` | EffectCraft |
+| [aswat](https://github.com/7mz410/CreativeStudio-aswat) | أصوات | Audio recording and mixing | `.aswat` | SoundCraft |
+| [al7an](https://github.com/7mz410/CreativeStudio-al7an) | ألحان | Music making | `.al7an` | SoundCraft |
+| [trteeb](https://github.com/7mz410/CreativeStudio-trteeb) | ترتيب | Page layout | `.trteeb` | DesignCraft |
+| [sharek](https://github.com/7mz410/CreativeStudio-sharek) | شارك | Interface and graphic design | `.sharek` | FigCraft |
+| [sf7aat](https://github.com/7mz410/CreativeStudio-sf7aat) | صفحات | PDF documents | `.pdf` | PdfCraft |
+| [klmat](https://github.com/7mz410/CreativeStudio-klmat) | كلمات | Word processing | `.docx` | WordCraft |
+| [arqam](https://github.com/7mz410/CreativeStudio-arqam) | أرقام | Spreadsheets | `.xlsx` | GridCraft |
+| [3urood](https://github.com/7mz410/CreativeStudio-3urood) | عروض | Presentations | `.3urood` | DeckCraft |
+| [muhandes](https://github.com/7mz410/CreativeStudio-muhandes) | مهندس | Computer-aided design | `.dxf` | CADCraft |
 
 ## Quick start
 
