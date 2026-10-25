@@ -513,7 +513,8 @@ pub fn install_fonts(ctx: &egui::Context) {
     let stack = |fonts: &FontDefinitions, family: FontFamily| fonts.families.get(&family).cloned().unwrap_or_default();
     let (fallback, monospace) = (stack(&fonts, FontFamily::Proportional), stack(&fonts, FontFamily::Monospace));
     // Without its own monospace face, `mono` is egui's; with it, the face falls back to the text's.
-    let mono_fallback = if mono.is_empty() { monospace } else { fallback.iter().cloned().chain(std::iter::once("IBMPlexSansArabic".to_owned())).collect() };
+    let mono_fallback =
+        if mono.is_empty() { monospace } else { fallback.iter().cloned().chain(std::iter::once("IBMPlexSansArabic".to_owned())).collect() };
     let family =
         |faces: Vec<&str>, fallback: &[String]| -> Vec<String> { faces.into_iter().map(str::to_owned).chain(fallback.iter().cloned()).collect() };
     fonts.families.insert(FontFamily::Proportional, family(ui.clone(), &fallback));

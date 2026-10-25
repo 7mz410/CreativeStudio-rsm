@@ -110,7 +110,9 @@ fn plural_polish(n: u64) -> usize {
 pub static LANGUAGES: [LangInfo; 26] = [
     LangInfo { code: "en", name: "English", source: "", plural: plural_one_other, complete_menus: false, catalog: OnceLock::new() },
     // Arabic (Creative Studio): the whole interface; drawn with IBM Plex Sans Arabic.
-    LangInfo { code: "ar", name: "العربية", source: include_str!("ar.tsv"), plural: plural_arabic, complete_menus: true, catalog: OnceLock::new() },
+    LangInfo {
+        code: "ar", name: "العربية", source: include_str!("ar.tsv"), plural: plural_arabic, complete_menus: true, catalog: OnceLock::new()
+    },
     // Greek: the whole interface and the status and error messages, keeping the same names in
     // English as Spanish; every `el-*` locale (including `el-GR` and `el-CY`) resolves here.
     LangInfo {
@@ -287,11 +289,7 @@ pub static LANGUAGES: [LangInfo; 26] = [
 impl LangInfo {
     fn catalog(&self) -> &Catalog {
         self.catalog.get_or_init(|| {
-            if bidi::RTL_CODES.contains(&self.code) {
-                Catalog::parse(&bidi::visual_catalog(self.source))
-            } else {
-                Catalog::parse(self.source)
-            }
+            if bidi::RTL_CODES.contains(&self.code) { Catalog::parse(&bidi::visual_catalog(self.source)) } else { Catalog::parse(self.source) }
         })
     }
 }

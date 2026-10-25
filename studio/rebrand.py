@@ -137,7 +137,8 @@ EXT_FILES = {
     'xtask/src/bundle.rs': [
         ('.map_err(|e| format!("copy icon: {e}"))?;\n',
          '.map_err(|e| format!("copy icon: {e}"))?;\n'
-         '    std::fs::copy(root.join("assets/app-icon/rsm-document.icns"), app.join("Resources/rsm-document.icns")).map_err(|e| format!("copy document icon: {e}"))?;\n'),
+         '    std::fs::copy(root.join("assets/app-icon/rsm-document.icns"), app.join("Resources/rsm-document.icns"))\n'
+         '        .map_err(|e| format!("copy document icon: {e}"))?;\n'),
         ('"<array><string>vectorcraft</string><string>drawcraft</string></array>"',
          '"<array><string>rsm</string><string>vectorcraft</string><string>drawcraft</string></array>"'),
     ],

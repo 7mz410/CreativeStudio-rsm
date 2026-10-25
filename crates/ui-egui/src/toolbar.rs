@@ -107,9 +107,13 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
     match app.ui.toolbar_pos {
         None => {
             let margin = egui::Margin { left: 6, right: 0, top: 6, bottom: 6 };
-            (if egui::is_rtl() { egui::Panel::right("toolbar") } else { egui::Panel::left("toolbar") }).resizable(false).exact_size(w + 6.0).frame(egui::Frame::NONE).show(ui, |ui| {
-                crate::theme::card(ui, &t, margin, |ui| body(app, ui, cols, None));
-            });
+            (if egui::is_rtl() { egui::Panel::right("toolbar") } else { egui::Panel::left("toolbar") })
+                .resizable(false)
+                .exact_size(w + 6.0)
+                .frame(egui::Frame::NONE)
+                .show(ui, |ui| {
+                    crate::theme::card(ui, &t, margin, |ui| body(app, ui, cols, None));
+                });
         }
         Some(pos) => {
             // Floating, kept inside the window, its tools scrolling when they don't fit under it.
