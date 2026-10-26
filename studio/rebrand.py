@@ -301,7 +301,10 @@ def main():
             if not b or b not in out:
                 out = out.replace(a, b)
         if rel in EXT_TESTS:
+            # The PDF attachment's internal name keeps the upstream format name (crates/pdf EDITING_FILE).
+            out = out.replace('vectorcraft-editing.vectorcraft', '\x00EDITING\x00')
             out = re.sub(r'\.vectorcraft\b(?!_)', '.rsm', out)
+            out = out.replace('\x00EDITING\x00', 'vectorcraft-editing.vectorcraft')
         if out != src:
             path.write_text(out, encoding='utf-8')
             changed.append(path)
