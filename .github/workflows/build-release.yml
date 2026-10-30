@@ -92,7 +92,7 @@ concurrency:
 jobs:
   macos:
     name: macOS aarch64 (.dmg)
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
       CRAFT_FONTS_REQUIRED: "1"
