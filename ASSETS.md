@@ -31,7 +31,7 @@ Generated-in-code art is original and has no file to list. This covers the defau
 | `docs/studio/ttshat.svg` | Hamza Abu Ayyash (Creative Studio) | Original artwork | Creative Studio logo | Creative Studio logo |
 | `assets/app-icon/LICENSE.txt` | (licence/readme text) | VectorCraft | MIT OR Apache-2.0 |  |
 | `assets/app-icon/README.md` | (licence/readme text) | VectorCraft | MIT OR Apache-2.0 |  |
-| `assets/app-icon/rsm-document.svg` | Hamza Abu Ayyash (Creative Studio) | Original artwork | MIT OR Apache-2.0 (`assets/app-icon/LICENSE.txt`) | Finder icon for `.rsm` documents |
+| `assets/app-icon/rsm-document.svg` | Hamza Abu Ayyash (Creative Studio) | Drawn by `studio/doc_icon.py` around the star in `assets/app-icon/vectorcraft.svg` | MIT OR Apache-2.0 (`assets/app-icon/LICENSE.txt`) | Finder icon for `.rsm` documents |
 | `assets/app-icon/rsm-document.icns` | Hamza Abu Ayyash (Creative Studio) | Rendered from `assets/app-icon/rsm-document.svg` with resvg and iconutil | MIT OR Apache-2.0 (`assets/app-icon/LICENSE.txt`) | Finder icon for `.rsm` documents |
 | `assets/app-icon/hicolor/128x128/apps/ai.storyteller.vectorcraft.png` | Hamza Abu Ayyash (Creative Studio) | Original rsm mark (`docs/studio/mark-rsm-white.svg`) on a black tile, rendered by `packaging/icons.sh` | MIT OR Apache-2.0 (`assets/app-icon/LICENSE.txt`) | App icon (rsm mark) |
 | `assets/app-icon/hicolor/16x16/apps/ai.storyteller.vectorcraft.png` | Hamza Abu Ayyash (Creative Studio) | Original rsm mark (`docs/studio/mark-rsm-white.svg`) on a black tile, rendered by `packaging/icons.sh` | MIT OR Apache-2.0 (`assets/app-icon/LICENSE.txt`) | App icon (rsm mark) |
